@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+.student-header { margin-bottom:25px; border-radius:20px; padding:30px 34px; }
+.student-label { display:inline-block; margin-bottom:7px; font-size:.72rem; font-weight:800; letter-spacing:1.8px; color:rgba(25,35,55,.62); }
+.student-header h1 { font-size:2rem; }
+.student-header strong { color:var(--color-navy); }
+.student-nav { display:flex; align-items:center; gap:10px; }
+.student-summary { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+.summary-card { display:flex; flex-direction:column; gap:8px; }
+.summary-label { color:#7a8495; font-size:.75rem; font-weight:650; text-transform:uppercase; letter-spacing:.4px; }
+.summary-card strong { color:#d58a19; font-size:1.45rem; }
+.student-section { margin-bottom:28px; padding:30px; }
+.thesis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
+.thesis-card {
+    display:flex; flex-direction:column; padding:23px; border:1px solid #e8ebf0; border-radius:15px;
+    background:linear-gradient(160deg,#fff,#fffaf0);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.thesis-card:hover { transform:translateY(-4px); border-color:rgba(248,193,70,.7); box-shadow:0 14px 28px rgba(205,142,25,.12); }
+.thesis-card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:18px; }
+.thesis-tag { padding:5px 9px; border-radius:20px; background:rgba(248,193,70,.18); color:#a56e16; font-size:.7rem; font-weight:700; }
+.application-badge { color:#8991a0; font-size:.74rem; }
+.thesis-card h3 { margin-bottom:10px; color:var(--color-navy); font-size:1.05rem; }
+.thesis-description { flex:1; margin-bottom:20px; color:#697386; font-size:.86rem; line-height:1.65; }
+.supervisor-info { display:flex; flex-direction:column; gap:3px; margin-bottom:18px; padding-top:14px; border-top:1px solid #eceff3; }
+.supervisor-info span { color:#929aaa; font-size:.7rem; text-transform:uppercase; }
+.supervisor-info strong { color:#40495a; font-size:.84rem; }
+.student-table th { background:#fff8e8; color:#826026; }
+.thesis-name { color:var(--color-navy)!important; font-weight:650; }
+
+@media (max-width:900px) { .student-summary { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:550px) {
+    .student-header, .student-section { padding:22px 18px; }
+    .student-summary { grid-template-columns:1fr; }
+    .student-nav { width:100%; flex-direction:column; }
+    .student-nav > * { width:100%; }
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Diploma Portal</title>
+
+
+    <!-- Favicon -->
+
+    <link rel="icon"
+          type="image/x-icon"
+          th:href="@{/images/logo.ico}">
+
+
+    <!-- Styles -->
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/AuthStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+
+    <!-- Scripts -->
+
+    <script th:src="@{/js/AuthTransition.js}"
+            defer>
+    </script>
+
+    <script th:src="@{/js/PasswordToggle.js}"
+            defer>
+    </script>
+
+</head>
+
+
+<body>
+
+
+<main class="auth-page">
+
+    <div class="auth-container register-container"
+         id="authContainer">
+
+
+        <!-- ========================================
+             DIAGONAL PANEL
+        ========================================= -->
+
+        <section class="auth-visual-side">
+
+            <div class="auth-visual-content">
+
+
+                <div class="auth-logo">
+
+                    <img th:src="@{/images/logo.png}"
+                         src="/images/logo.png"
+                         alt="Diploma Portal Logo">
+
+                </div>
+
+
+                <h2>
+                    Already registered?
+                </h2>
+
+
+                <p>
+                    Sign in to access your dashboard,
+                    applications and diploma theses.
+                </p>
+
+
+                <a class="auth-switch"
+                   id="loginLink"
+                   th:href="@{/}">
+
+                    Log in
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================
+             REGISTER FORM
+        ========================================= -->
+
+        <section class="auth-form-side">
+
+
+            <h1 class="auth-title">
+                Create Account
+            </h1>
+
+
+            <p class="auth-subtitle">
+                Create your Diploma Portal account to get started.
+            </p>
+
+
+
+            <form th:action="@{/register}"
+                  th:object="${registerRequest}"
+                  method="post">
+
+
+                <!-- USERNAME -->
+
+                <div class="auth-field">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+
+                    <input
+                        id="username"
+                        type="text"
+                        th:field="*{username}"
+                        autocomplete="username"
+                        placeholder="Choose a username">
+
+
+                    <p class="field-error"
+                       th:if="${#fields.hasErrors('username')}"
+                       th:errors="*{username}">
+                    </p>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="auth-field">
+
+				    <label for="password">
+				        Password
+				    </label>
+				
+				    <div class="password-wrapper">
+				
+				        <input
+				            id="password"
+				            type="password"
+				            th:field="*{password}"
+				            autocomplete="new-password"
+				            placeholder="Create a password">
+				
+				        <button
+				            type="button"
+				            class="password-toggle"
+				            data-target="password"
+				            aria-label="Show password">
+				
+				            <svg class="eye-icon eye-open"
+				                 viewBox="0 0 24 24"
+				                 aria-hidden="true">
+				
+				                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+				
+				                <circle cx="12"
+				                        cy="12"
+				                        r="3"></circle>
+				
+				            </svg>
+				
+				            <svg class="eye-icon eye-closed"
+				                 viewBox="0 0 24 24"
+				                 aria-hidden="true">
+				
+				                <path d="M3 3 21 21"></path>
+				
+				                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+				
+				                <path d="M9.9 4.2A11.7 11.7 0 0 1 12 4c6.5 0 10 8 10 8a15 15 0 0 1-3.1 4.2"></path>
+				
+				                <path d="M6.2 6.2C3.4 8 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1"></path>
+				
+				            </svg>
+				
+				        </button>
+				
+				    </div>
+				
+				    <p class="field-error"
+				       th:if="${#fields.hasErrors('password')}"
+				       th:errors="*{password}">
+				    </p>
+				
+				</div>
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="auth-field">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+
+                    <div class="password-wrapper">
+
+
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            th:field="*{confirmPassword}"
+                            autocomplete="new-password"
+                            placeholder="Repeat your password">
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="confirmPassword"
+                            aria-label="Show password">
+
+
+                            <!-- EYE OPEN -->
+
+                            <svg class="eye-icon eye-open"
+                                 viewBox="0 0 24 24"
+                                 aria-hidden="true">
+
+                                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
+
+                                <circle cx="12"
+                                        cy="12"
+                                        r="3"/>
+
+                            </svg>
+
+
+                            <!-- EYE OFF -->
+
+                            <svg class="eye-icon eye-closed"
+                                 viewBox="0 0 24 24"
+                                 aria-hidden="true">
+
+                                <path d="M3 3 21 21"/>
+
+                                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+
+                                <path d="M9.9 4.2A11.7 11.7 0 0 1 12 4c6.5 0 10 8 10 8a15 15 0 0 1-3.1 4.2"/>
+
+                                <path d="M6.2 6.2C3.4 8 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1"/>
+
+                            </svg>
+
+
+                        </button>
+
+
+                    </div>
+
+
+                    <p class="field-error"
+                       th:if="${#fields.hasErrors('confirmPassword')}"
+                       th:errors="*{confirmPassword}">
+                    </p>
+
+                </div>
+
+
+
+                <!-- ACCOUNT TYPE -->
+
+                <div class="auth-field">
+
+                    <label for="userRole">
+                        Account Type
+                    </label>
+
+
+                    <select id="userRole"
+                            th:field="*{userRole}">
+
+                        <option value="">
+                            Select account type
+                        </option>
+
+
+                        <option
+                            th:each="role : ${roles}"
+                            th:value="${role}"
+                            th:text="${role.label}">
+                        </option>
+
+                    </select>
+
+
+                    <p class="field-error"
+                       th:if="${#fields.hasErrors('userRole')}"
+                       th:errors="*{userRole}">
+                    </p>
+
+                </div>
+
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button class="auth-button"
+                        type="submit">
+
+                    Create Account
+
+                </button>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

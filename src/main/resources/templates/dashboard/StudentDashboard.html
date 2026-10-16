@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/StudentDashboardStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+</head>
+
+<body>
+
+
+<main class="portal-page student-page">
+
+    <div class="portal-container portal-container--wide student-container">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header page-header--student student-header">
+
+            <div class="student-header-content">
+
+                <span class="student-label">
+                    STUDENT PORTAL
+                </span>
+
+                <h1>Student Dashboard</h1>
+
+                <p>
+                    Welcome,
+                    <strong th:text="${student.fullName}">
+                        Student
+                    </strong>
+                </p>
+
+            </div>
+
+
+            <nav class="page-nav student-nav">
+
+                <a class="btn btn-primary profile-button"
+                   th:href="@{/student/profile}">
+                    My Profile
+                </a>
+                
+                <a class="btn btn-primary profile-button"
+				   th:if="${hasThesisAssignment}"
+				   th:href="@{/student/assignment}">
+				    My Thesis
+				</a>
+
+
+                <div th:replace="~{fragments/actions :: logoutForm('btn btn-outline-navy logout-button')}"></div>
+
+            </nav>
+
+        </header>
+
+
+
+        <!-- QUICK PROFILE INFO -->
+
+        <section class="student-summary">
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Registration Number
+                </span>
+
+                <strong th:text="${student.registrationNumber}">
+                    12345
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Average Grade
+                </span>
+
+                <strong th:text="${student.averageGrade != null ? student.averageGrade : '-'}">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Remaining Courses
+                </span>
+
+                <strong th:text="${student.remainingCourses != null ? student.remainingCourses : '-'}">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    Applications
+                </span>
+
+                <strong th:text="${#lists.size(applications)}">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- AVAILABLE THESIS TOPICS -->
+
+        <section class="surface-card student-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        Explore
+                    </span>
+
+                    <h2>Available Thesis Topics</h2>
+
+                    <p>
+                        Browse thesis topics proposed by professors
+                        and apply to the ones that interest you.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(theses)}">
+
+                No thesis topics are currently available.
+
+            </div>
+
+
+            <div class="thesis-grid"
+                 th:unless="${#lists.isEmpty(theses)}">
+
+
+                <article class="thesis-card"
+                         th:each="thesis : ${theses}">
+
+
+                    <div class="thesis-card-top">
+
+                        <span class="thesis-tag">
+                            Thesis Topic
+                        </span>
+
+                        <span class="application-badge">
+
+                            <span th:text="${#lists.size(thesis.applications)}">
+                                0
+                            </span>
+
+                            applications
+
+                        </span>
+
+                    </div>
+
+
+                    <h3 th:text="${thesis.thesisTitle}">
+                        Thesis Title
+                    </h3>
+
+
+                    <p class="thesis-description"
+                       th:text="${thesis.thesisDescription}">
+
+                        Thesis description
+
+                    </p>
+
+
+                    <div class="supervisor-info">
+
+                        <span>Supervisor</span>
+
+                        <strong th:text="${thesis.supervisor.fullName}">
+                            Professor Name
+                        </strong>
+
+                    </div>
+
+
+                    <div class="thesis-actions">
+
+                        <a class="btn btn-gold btn-block apply-button"
+                           th:href="@{/student/theses/{id}/apply(
+                                   id=${thesis.thesisId}
+                           )}">
+
+                            Apply for Thesis
+
+                        </a>
+
+                    </div>
+
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- MY APPLICATIONS -->
+
+        <section class="surface-card student-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        Activity
+                    </span>
+
+                    <h2>My Applications</h2>
+
+                    <p>
+                        Follow the progress of the thesis applications
+                        you have submitted.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(applications)}">
+
+                You have not submitted any thesis applications yet.
+
+            </div>
+
+
+            <div class="table-wrapper"
+                 th:unless="${#lists.isEmpty(applications)}">
+
+                <table class="data-table student-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Thesis</th>
+                            <th>Supervisor</th>
+                            <th>Application Date</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+					    <tr th:each="thesisApplication : ${applications}">
+					
+					        <td class="thesis-name"
+					            th:text="${thesisApplication.thesis.thesisTitle}">
+					            Thesis
+					        </td>
+					
+					        <td th:text="${thesisApplication.thesis.supervisor.fullName}">
+					            Professor
+					        </td>
+					
+					        <td th:text="${#temporals.format(
+					                thesisApplication.applicationDate,
+					                'dd/MM/yyyy HH:mm'
+					        )}">
+					            Date
+					        </td>
+					
+					        <td>
+					
+					            <span class="status-badge"
+					                  th:classappend="${' status-' + #strings.toLowerCase(thesisApplication.status.name())}"
+					                  th:text="${thesisApplication.status}">
+					                PENDING
+					            </span>
+					
+					        </td>
+					
+					    </tr>
+					
+					</tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

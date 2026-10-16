@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+:root {
+    --color-navy: #192337;
+    --color-navy-2: #263752;
+    --color-navy-3: #293a58;
+    --color-gold: #f8c146;
+    --color-orange: #efa02f;
+    --color-white: #ffffff;
+    --color-text: #394456;
+    --color-text-dark: #252d3d;
+    --color-muted: #7c8696;
+    --color-border: #e5e9ef;
+    --color-surface: #ffffff;
+    --color-surface-soft: #fafbfc;
+    --color-danger: #a54141;
+    --color-success: #31764a;
+    --color-info: #315f9b;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --shadow-card: 0 12px 30px rgba(25, 35, 55, 0.07);
+    --shadow-header: 0 18px 40px rgba(25, 35, 55, 0.18);
+    --transition-fast: 0.2s ease;
+    --transition-default: 0.25s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html { min-height: 100%; }
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+}
+
+main { flex: 1; }
+
+a, button, input, select, textarea { font: inherit; }

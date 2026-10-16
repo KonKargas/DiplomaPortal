@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.thesis-form-card { padding:32px; }
+.form-heading { margin-bottom:30px; }
+.form-heading h2 { margin-bottom:8px; color:var(--color-navy); font-size:1.45rem; font-weight:700; }
+.form-heading p { max-width:700px; color:#778195; font-size:.93rem; line-height:1.6; }
+.thesis-form { max-width:900px; }
+.thesis-form .form-group { margin-bottom:26px; }
+.thesis-form textarea { min-height:190px; }
+.thesis-form .form-info-box { margin:5px 0 30px; }
+@media (max-width:900px) { .thesis-form-card { padding:26px; } .thesis-form { max-width:none; } }
+@media (max-width:600px) { .thesis-form-card { padding:22px 18px; } .form-heading h2 { font-size:1.25rem; } .thesis-form .form-group { margin-bottom:22px; } }

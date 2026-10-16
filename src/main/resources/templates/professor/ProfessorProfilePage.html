@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Professor Profile | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ProfileStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ProfessorProfileStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+	<script th:src="@{/js/ProfilePicturePreview.js}" defer></script>
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page professor-profile-page profile-page">
+
+    <div class="portal-container portal-container--form profile-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--professor profile-header">
+
+            <div>
+
+                <h1>Professor Profile</h1>
+
+                <p>
+                    Manage your personal and academic information.
+                </p>
+
+            </div>
+
+
+            <a class="btn btn-outline-gold back-button"
+               th:href="@{/professor/dashboard}">
+
+                Back to Dashboard
+
+            </a>
+
+        </header>
+
+
+
+        <!-- ========================================
+             PROFILE CARD
+        ========================================= -->
+
+        <section class="surface-card profile-card">
+
+
+            <form th:action="@{/professor/profile}"
+                  th:object="${professorProfile}"
+                  method="post"
+                  enctype="multipart/form-data">
+
+
+                <!-- ========================================
+                     PROFILE PICTURE
+                ========================================= -->
+
+                <div class="profile-picture-section">
+
+
+                    <div class="profile-picture-wrapper">
+
+
+                        <!-- SAVED PROFILE PICTURE -->
+
+                        <img
+                            class="profile-picture"
+                            id="profilePreview"
+
+                            th:if="${
+                                professorProfile.profilePicturePath != null
+                                && !#strings.isEmpty(
+                                    professorProfile.profilePicturePath
+                                )
+                            }"
+
+                            th:src="@{${professorProfile.profilePicturePath}}"
+
+                            alt="Professor profile picture">
+
+
+
+                        <!-- INITIAL FALLBACK -->
+
+                        <div
+                            class="profile-picture-placeholder"
+                            id="profilePlaceholder"
+
+                            th:if="${
+                                professorProfile.profilePicturePath == null
+                                || #strings.isEmpty(
+                                    professorProfile.profilePicturePath
+                                )
+                            }">
+
+
+                            <span th:text="${#strings.toUpperCase(
+                                #strings.substring(
+                                    professorProfile.fullName != null
+                                    && !#strings.isEmpty(
+                                        professorProfile.fullName
+                                    )
+                                    ? professorProfile.fullName
+                                    : 'P',
+                                    0,
+                                    1
+                                )
+                            )}">
+
+                                P
+
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="picture-actions">
+
+                        <div>
+
+                            <h2>Profile Picture</h2>
+
+                            <p>
+                                Upload a photo to personalize your profile.
+                            </p>
+
+                        </div>
+
+
+                        <input
+                            id="profilePicture"
+                            name="profilePicture"
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp"
+                            hidden>
+
+
+                        <label class="btn btn-secondary upload-button"
+                               for="profilePicture">
+
+                            Choose Picture
+
+                        </label>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="profile-divider"></div>
+
+
+
+                <!-- ========================================
+                     PROFILE INFORMATION
+                ========================================= -->
+
+                <div class="profile-form-grid">
+
+
+                    <!-- FULL NAME -->
+
+                    <div class="form-group">
+
+                        <label for="fullName">
+                            Full Name
+                        </label>
+
+                        <input
+                            id="fullName"
+                            type="text"
+                            th:field="*{fullName}"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            th:field="*{email}"
+                            placeholder="professor@university.edu"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- DEPARTMENT -->
+
+                    <div class="form-group">
+
+                        <label for="department">
+                            Department
+                        </label>
+
+                        <input
+                            id="department"
+                            type="text"
+                            th:field="*{department}"
+                            placeholder="Computer Science & Engineering"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- OFFICE -->
+
+                    <div class="form-group">
+
+                        <label for="office">
+                            Office
+                        </label>
+
+                        <input
+                            id="office"
+                            type="text"
+                            th:field="*{office}"
+                            placeholder="Office location"
+                            required>
+
+                    </div>
+
+
+
+                    <!-- FIELD OF STUDIES -->
+
+                    <div class="form-group full-width">
+
+                        <label for="fieldOfStudies">
+                            Field of Studies
+                        </label>
+
+                        <input
+                            id="fieldOfStudies"
+                            type="text"
+                            th:field="*{fieldOfStudies}"
+                            placeholder="e.g. Software Engineering, Artificial Intelligence"
+                            required>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     ACTIONS
+                ========================================= -->
+
+                <div class="profile-actions">
+
+
+                    <a class="btn btn-secondary cancel-button"
+                       th:href="@{/professor/dashboard}">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button class="btn btn-primary save-button"
+                            type="submit">
+
+                        Save Profile
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

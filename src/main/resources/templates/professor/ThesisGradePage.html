@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Grade Thesis | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ThesisGradeStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+	<script th:src="@{/js/ThesisGrading.js}" defer></script>
+</head>
+
+
+<body>
+
+
+<main class="portal-page professor-page grade-page">
+
+    <div class="portal-container portal-container--medium grade-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--professor grade-header">
+
+            <div>
+
+                <span class="page-eyebrow grade-eyebrow">
+                    PROFESSOR PORTAL
+                </span>
+
+                <h1>
+                    Thesis Evaluation
+                </h1>
+
+                <p>
+                    Review the submitted thesis document
+                    and complete the student's evaluation.
+                </p>
+
+            </div>
+
+
+            <a class="btn btn-outline-gold dashboard-button"
+               th:href="@{/professor/dashboard}">
+
+                Back to Dashboard
+
+            </a>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS INFORMATION
+        ========================================= -->
+
+        <section class="surface-card thesis-card">
+
+
+            <span class="section-label">
+                THESIS
+            </span>
+
+
+            <h2 th:text="${assignment.thesis.thesisTitle}">
+                Thesis Title
+            </h2>
+
+
+            <p class="thesis-description"
+               th:text="${assignment.thesis.thesisDescription}">
+
+                Thesis description
+
+            </p>
+
+
+
+            <div class="thesis-info-grid">
+
+
+                <!-- STUDENT -->
+
+                <div class="info-item">
+
+                    <span>
+                        Student
+                    </span>
+
+                    <strong th:text="${assignment.student.fullName}">
+                        Student Name
+                    </strong>
+
+                    <small th:text="${assignment.student.registrationNumber}">
+                        Registration Number
+                    </small>
+
+                </div>
+
+
+
+                <!-- SUBMITTED -->
+
+                <div class="info-item">
+
+                    <span>
+                        Submitted
+                    </span>
+
+
+                    <strong th:if="${assignment.submittedAt != null}"
+                            th:text="${#temporals.format(
+                                assignment.submittedAt,
+                                'dd/MM/yyyy HH:mm'
+                            )}">
+
+                        Date
+
+                    </strong>
+
+
+                    <strong th:if="${assignment.submittedAt == null}">
+                        Not submitted
+                    </strong>
+
+                </div>
+
+
+
+                <!-- SUPERVISOR -->
+
+                <div class="info-item">
+
+                    <span>
+                        Supervisor
+                    </span>
+
+                    <strong th:text="${assignment.thesis.supervisor.fullName}">
+                        Professor
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             THESIS DOCUMENT
+        ========================================= -->
+
+        <section class="surface-card document-card">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        DOCUMENT
+                    </span>
+
+                    <h2>
+                        Submitted Thesis
+                    </h2>
+
+                    <p>
+                        Open the student's submitted PDF before
+                        completing the evaluation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PDF EXISTS -->
+
+            <div class="document-row"
+                 th:if="${assignment.pdfFilePath != null
+                         && !#strings.isEmpty(assignment.pdfFilePath)}">
+
+
+                <div class="pdf-icon">
+                    PDF
+                </div>
+
+
+                <div class="document-details">
+
+                    <strong>
+                        Thesis Document
+                    </strong>
+
+                    <span>
+                        Student's submitted PDF
+                    </span>
+
+                </div>
+
+
+                <a class="btn btn-primary view-pdf-button"
+                   th:href="@{${assignment.pdfFilePath}}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+
+                    View PDF
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- PDF DOES NOT EXIST -->
+
+            <div class="document-missing"
+                 th:if="${assignment.pdfFilePath == null
+                         || #strings.isEmpty(assignment.pdfFilePath)}">
+
+                No thesis PDF has been submitted yet.
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             GRADING FORM
+        ========================================= -->
+
+        <section class="surface-card grading-card">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        EVALUATION
+                    </span>
+
+                    <h2>
+                        Grade Thesis
+                    </h2>
+
+                    <p>
+                        Enter a grade from 0 to 10 for each category.
+                        The final grade is calculated automatically.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <form th:action="@{/professor/assignments/{id}/grade(
+                    id=${assignment.assignmentId}
+                  )}"
+                  th:object="${gradeForm}"
+                  method="post"
+                  class="grading-form">
+
+
+                <div class="grades-grid">
+
+
+                    <!-- IMPLEMENTATION -->
+
+                    <div class="grade-field">
+
+                        <label for="implementationGrade">
+
+                            Implementation
+
+                            <span>
+                                0 – 10
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            id="implementationGrade"
+                            class="grade-input"
+                            type="number"
+                            min="0"
+                            max="10"
+                            step="0.01"
+                            th:field="*{implementationGrade}"
+                            required>
+
+
+                        <p>
+                            Quality and completeness of the
+                            technical implementation.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- REPORT -->
+
+                    <div class="grade-field">
+
+                        <label for="reportGrade">
+
+                            Written Report
+
+                            <span>
+                                0 – 10
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            id="reportGrade"
+                            class="grade-input"
+                            type="number"
+                            min="0"
+                            max="10"
+                            step="0.01"
+                            th:field="*{reportGrade}"
+                            required>
+
+
+                        <p>
+                            Quality, structure and documentation
+                            of the written thesis.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- PRESENTATION -->
+
+                    <div class="grade-field">
+
+                        <label for="presentationGrade">
+
+                            Presentation
+
+                            <span>
+                                0 – 10
+                            </span>
+
+                        </label>
+
+
+                        <input
+                            id="presentationGrade"
+                            class="grade-input"
+                            type="number"
+                            min="0"
+                            max="10"
+                            step="0.01"
+                            th:field="*{presentationGrade}"
+                            required>
+
+
+                        <p>
+                            Quality and clarity of the final
+                            thesis presentation.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     FINAL GRADE
+                ========================================= -->
+
+                <div class="final-grade-section">
+
+
+                    <div>
+
+                        <span>
+                            FINAL GRADE
+                        </span>
+
+                        <p>
+                            Automatically calculated as the average
+                            of the three evaluation grades.
+                        </p>
+
+                    </div>
+
+
+                    <div class="final-grade-value"
+                         id="finalGradePreview">
+
+                        <span th:text="${assignment.finalGrade != null
+                                ? assignment.finalGrade
+                                : '-'}">
+
+                            -
+
+                        </span>
+
+                        <small>
+                            / 10
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     ACTIONS
+                ========================================= -->
+
+                <div class="form-actions">
+
+
+                    <a class="btn btn-secondary cancel-button"
+                       th:href="@{/professor/dashboard}">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button class="btn btn-gold save-grade-button"
+                            type="submit">
+
+                        Save Grades
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

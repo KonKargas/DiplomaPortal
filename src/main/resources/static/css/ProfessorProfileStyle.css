@@ -1,0 +1,3 @@
+@charset "UTF-8";
+.profile-picture-wrapper { background:linear-gradient(135deg,var(--color-gold),var(--color-navy)); }
+.profile-picture-placeholder { background:linear-gradient(135deg,#25344e,var(--color-navy)); color:var(--color-gold); }

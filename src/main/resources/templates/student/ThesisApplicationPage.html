@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Apply for Thesis | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/StudentApplicationStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page student-page application-page">
+
+    <div class="portal-container portal-container--narrow application-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--student application-header">
+
+            <div>
+
+                <span class="page-eyebrow application-eyebrow">
+                    THESIS APPLICATION
+                </span>
+
+                <h1>Apply for Thesis</h1>
+
+                <p>
+                    Review the thesis information before
+                    submitting your application.
+                </p>
+
+            </div>
+
+
+            <a class="btn btn-primary dashboard-button"
+               th:href="@{/student/dashboard}">
+
+                Back to Dashboard
+
+            </a>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS INFORMATION
+        ========================================= -->
+
+        <section class="surface-card application-card">
+
+
+            <div class="thesis-info">
+
+
+                <span class="thesis-tag">
+                    Thesis Topic
+                </span>
+
+
+                <h2 th:text="${thesis.thesisTitle}">
+                    Thesis Title
+                </h2>
+
+
+                <p class="thesis-description"
+                   th:text="${thesis.thesisDescription}">
+
+                    Thesis description
+
+                </p>
+
+
+
+                <div class="thesis-details">
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Supervisor
+                        </span>
+
+                        <strong th:text="${thesis.supervisor.fullName}">
+                            Professor
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Department
+                        </span>
+
+                        <strong th:text="${thesis.supervisor.department}">
+                            Department
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Applications
+                        </span>
+
+                        <strong th:text="${#lists.size(thesis.applications)}">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="content-divider application-divider"></div>
+
+
+
+            <!-- ========================================
+                 ALREADY APPLIED
+            ========================================= -->
+
+            <div class="already-applied"
+                 th:if="${alreadyApplied}">
+
+                <strong>
+                    Application already submitted
+                </strong>
+
+                <p>
+                    You have already applied for this thesis topic.
+                    You cannot submit another application.
+                </p>
+
+
+                <a class="btn btn-secondary return-button"
+                   th:href="@{/student/dashboard}">
+
+                    Return to Dashboard
+
+                </a>
+
+            </div>
+
+
+
+            <!-- ========================================
+                 APPLICATION FORM
+            ========================================= -->
+
+            <form th:unless="${alreadyApplied}"
+                  th:action="@{/student/theses/{id}/apply(
+                        id=${thesis.thesisId}
+                  )}"
+                  method="post">
+
+
+                <div class="student-info-box">
+
+                    <span>
+                        Applying as
+                    </span>
+
+
+                    <strong th:text="${student.fullName}">
+                        Student Name
+                    </strong>
+
+
+                    <small th:text="${student.registrationNumber}">
+                        Registration Number
+                    </small>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="notes">
+                        Message to Professor
+                    </label>
+
+
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        rows="7"
+                        maxlength="1000"
+                        placeholder="Optional: Explain why you are interested in this thesis...">
+                    </textarea>
+
+
+                    <span class="field-hint">
+                        Optional. Maximum 1000 characters.
+                    </span>
+
+                </div>
+
+
+
+                <!-- ========================================
+                     ACTIONS
+                ========================================= -->
+
+                <div class="application-actions">
+
+
+                    <a class="btn btn-secondary cancel-button"
+                       th:href="@{/student/dashboard}">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button class="btn btn-gold submit-application-button"
+                            type="submit">
+
+                        Submit Application
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

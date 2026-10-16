@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+.thesis-summary-card { margin-bottom:28px; padding:28px 30px; }
+.thesis-summary-top { display:flex; justify-content:space-between; align-items:flex-start; gap:25px; }
+.thesis-label { display:block; margin-bottom:6px; color:#bd8321; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; }
+.thesis-summary-card h2 { color:var(--color-navy); font-size:1.45rem; }
+.thesis-description { max-width:850px; margin-top:15px; color:#6e788a; font-size:.9rem; line-height:1.65; }
+.application-counter { min-width:105px; padding:14px 18px; border-radius:12px; background:#fff8e8; text-align:center; }
+.application-counter strong { display:block; color:#d48b1c; font-size:1.6rem; }
+.application-counter span { color:#8a7655; font-size:.7rem; }
+.applications-section, .strategy-section { padding:30px; }
+.strategy-section { margin-top:28px; }
+.applications-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(390px,1fr)); gap:20px; }
+.application-card { padding:23px; border:1px solid #e5e9ef; border-radius:14px; background:#fff; transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.application-card:hover { transform:translateY(-3px); border-color:rgba(248,193,70,.55); box-shadow:0 13px 27px rgba(25,35,55,.08); }
+.application-card-header { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.student-avatar { width:50px; height:50px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:50%; background:linear-gradient(135deg,var(--color-gold),var(--color-orange)); color:var(--color-navy); font-size:1.2rem; font-weight:800; }
+.student-heading { flex:1; }
+.student-heading h3 { margin-bottom:3px; color:var(--color-navy); font-size:1rem; }
+.student-heading span { color:#8992a1; font-size:.76rem; }
+.academic-info { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+.academic-stat { padding:12px; border-radius:9px; background:#f7f8fa; }
+.academic-stat span { display:block; margin-bottom:5px; color:#9098a6; font-size:.65rem; text-transform:uppercase; }
+.academic-stat strong { color:#354052; font-size:.82rem; }
+.application-notes { min-height:105px; margin-bottom:20px; padding:15px; border-radius:9px; background:#fafbfc; }
+.notes-label { display:block; margin-bottom:8px; color:#7d8695; font-size:.68rem; font-weight:750; text-transform:uppercase; }
+.application-notes p { color:#586274; font-size:.84rem; line-height:1.55; }
+.application-notes .no-notes { color:#a0a7b2; font-style:italic; }
+.application-actions { display:flex; justify-content:flex-end; gap:10px; padding-top:17px; border-top:1px solid #edf0f4; }
+.decision-message { width:100%; padding:10px 13px; border-radius:8px; font-size:.8rem; font-weight:650; text-align:center; }
+.accepted-message { background:#e9f7ed; color:#31764a; }
+.rejected-message { background:#fff0f0; color:#a33f3f; }
+.pending-message { background:#fff4d7; color:#976713; }
+.strategy-heading { margin-bottom:24px; }
+.strategy-heading h2 { margin-bottom:6px; color:var(--color-navy); font-size:1.35rem; }
+.strategy-heading p { max-width:760px; color:#747f90; font-size:.87rem; line-height:1.6; }
+.strategy-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; }
+.strategy-option { display:flex; align-items:flex-start; gap:13px; padding:18px 20px; border:1px solid #dfe4ec; border-radius:12px; background:#fafbfc; cursor:pointer; transition:transform .2s ease,border-color .25s ease,background .25s ease,box-shadow .25s ease; }
+.strategy-option:hover { transform:translateY(-2px); border-color:rgba(248,193,70,.65); background:#fffdf7; box-shadow:0 8px 18px rgba(25,35,55,.06); }
+.strategy-option:has(input:checked) { border-color:#efa72d; background:#fff8e8; box-shadow:0 0 0 2px rgba(248,193,70,.12); }
+.strategy-option input[type="radio"] { margin-top:3px; accent-color:var(--color-navy); cursor:pointer; }
+.strategy-content { display:flex; flex-direction:column; gap:5px; }
+.strategy-content strong { color:var(--color-navy); font-size:.9rem; }
+.strategy-content span { color:#7b8595; font-size:.78rem; line-height:1.5; }
+.threshold-fields { max-height:0; margin-top:0; padding:0 20px; overflow:hidden; border:1px solid transparent; border-radius:12px; background:#fffaf0; opacity:0; transition:max-height .35s ease,opacity .25s ease,margin-top .35s ease,padding .35s ease,border-color .35s ease; }
+.threshold-fields.visible { max-height:350px; margin-top:22px; padding:20px; border-color:rgba(248,193,70,.40); opacity:1; }
+.threshold-heading { display:flex; flex-direction:column; gap:4px; margin-bottom:18px; }
+.threshold-heading strong { color:var(--color-navy); font-size:.9rem; }
+.threshold-heading span { color:#8a7e69; font-size:.76rem; }
+.threshold-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.threshold-field { display:flex; flex-direction:column; }
+.threshold-field label { margin-bottom:8px; color:#4d586b; font-size:.8rem; font-weight:650; }
+.threshold-field input { width:100%; padding:11px 13px; border:1px solid #d8dde5; border-radius:8px; outline:none; background:#fff; color:#293446; font-size:.88rem; }
+.threshold-field input:focus { border-color:#efa72d; box-shadow:0 0 0 3px rgba(248,193,70,.16); }
+.threshold-field small { margin-top:7px; color:#948974; font-size:.7rem; line-height:1.4; }
+.strategy-actions { display:flex; align-items:center; justify-content:space-between; gap:25px; margin-top:24px; padding-top:22px; border-top:1px solid #edf0f4; }
+.strategy-warning { display:flex; flex-direction:column; gap:4px; }
+.strategy-warning strong { color:#9b6b15; font-size:.78rem; }
+.strategy-warning span { max-width:650px; color:#808997; font-size:.76rem; line-height:1.5; }
+
+@media (max-width:800px) { .applications-grid,.strategy-options { grid-template-columns:1fr; } .strategy-actions { align-items:stretch; flex-direction:column; } .strategy-actions .btn { width:100%; } }
+@media (max-width:600px) { .applications-section,.strategy-section,.thesis-summary-card { padding:22px 18px; } .thesis-summary-top { flex-direction:column; } .application-counter { width:100%; } .academic-info,.threshold-grid { grid-template-columns:1fr; } .application-card-header { align-items:flex-start; flex-wrap:wrap; } }

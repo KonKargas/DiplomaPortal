@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Professor Dashboard | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ProfessorDashboardStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+</head>
+
+<body>
+
+
+<main class="portal-page professor-page dashboard-page">
+
+    <div class="portal-container portal-container--wide dashboard-container">
+
+
+        <!-- ========================================
+             DASHBOARD HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--professor dashboard-header">
+
+            <div class="dashboard-header-content">
+
+                <h1>Professor Dashboard</h1>
+
+                <p class="dashboard-welcome">
+                    Welcome,
+                    <strong th:text="${professor.fullName}">
+                        Professor
+                    </strong>
+                </p>
+
+            </div>
+
+
+            <nav class="page-nav dashboard-nav">
+
+                <a class="btn btn-outline-gold profile-button"
+                   th:href="@{/professor/profile}">
+                    My Profile
+                </a>
+
+
+                <div th:replace="~{fragments/actions :: logoutForm('btn btn-outline-light logout-button')}"></div>
+
+            </nav>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS TOPICS
+        ========================================= -->
+
+        <section class="surface-card dashboard-section">
+
+            <div class="section-header">
+
+                <h2>My Thesis Topics</h2>
+
+                <a class="btn btn-primary primary-action"
+                   th:href="@{/professor/theses/create}">
+                    + Create Thesis
+                </a>
+
+            </div>
+
+
+            <!-- EMPTY STATE -->
+
+            <p class="empty-state"
+               th:if="${#lists.isEmpty(theses)}">
+
+                You have not created any thesis topics yet.
+
+            </p>
+
+
+            <!-- THESIS TABLE -->
+
+            <div class="table-wrapper"
+                 th:unless="${#lists.isEmpty(theses)}">
+
+                <table class="data-table dashboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Title</th>
+
+                            <th>Description</th>
+
+                            <th>Applications</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr th:each="thesis : ${theses}">
+
+
+                            <td class="thesis-title"
+                                th:text="${thesis.thesisTitle}">
+
+                                Thesis Title
+
+                            </td>
+
+
+                            <td class="thesis-description"
+                                th:text="${thesis.thesisDescription}">
+
+                                Thesis Description
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="application-count"
+                                      th:text="${#lists.size(thesis.applications)}">
+
+                                    0
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+							    <div class="thesis-table-actions">
+							
+							        <a class="btn btn-primary"
+							           th:href="@{/professor/theses/{id}/applications(
+							               id=${thesis.thesisId}
+							           )}">
+							
+							            Applications
+							
+							        </a>
+							
+							
+							        <a class="btn btn-secondary"
+							           th:href="@{/professor/theses/{id}/edit(
+							               id=${thesis.thesisId}
+							           )}">
+							
+							            Edit
+							
+							        </a>
+							
+							
+							        <form th:action="@{/professor/theses/{id}/delete(
+							                id=${thesis.thesisId}
+							              )}"
+							              method="post"
+							              class="inline-form"
+							              onsubmit="return confirm(
+							                  'Are you sure you want to delete this thesis? All applications and assignment data will also be deleted.'
+							              );">
+							
+							            <button class="btn btn-danger"
+							                    type="submit">
+							
+							                Delete
+							
+							            </button>
+							
+							        </form>
+							
+							    </div>
+							
+							</td>
+
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================
+		     STUDENTS UNDER SUPERVISION
+		========================================= -->
+		
+		<section class="surface-card dashboard-section">
+		
+		    <div class="section-header">
+		
+		        <h2>
+		            Students Under Supervision
+		        </h2>
+		
+		    </div>
+		
+		
+		    <!-- EMPTY STATE -->
+		
+		    <p class="empty-state"
+		       th:if="${#lists.isEmpty(assignments)}">
+		
+		        There are currently no students under supervision.
+		
+		    </p>
+		
+		
+		    <!-- SUPERVISED STUDENTS TABLE -->
+		
+		    <div class="table-wrapper"
+		         th:unless="${#lists.isEmpty(assignments)}">
+		
+		        <table class="data-table dashboard-table">
+		
+		
+		            <thead>
+		
+		                <tr>
+		
+		                    <th>Student</th>
+		
+		                    <th>Registration Number</th>
+		
+		                    <th>Thesis</th>
+		
+		                    <th>Assigned</th>
+		
+		                    <th>Submission</th>
+		
+		                    <th>Status</th>
+		
+		                    <th>Actions</th>
+		
+		                </tr>
+		
+		            </thead>
+		
+		
+		            <tbody>
+		
+		
+		                <tr th:each="assignment : ${assignments}">
+		
+		
+		                    <!-- STUDENT -->
+		
+		                    <td th:text="${assignment.student.fullName}">
+		                        Student Name
+		                    </td>
+		
+		
+		                    <!-- REGISTRATION NUMBER -->
+		
+		                    <td th:text="${assignment.student.registrationNumber}">
+		                        Registration Number
+		                    </td>
+		
+		
+		                    <!-- THESIS -->
+		
+		                    <td class="thesis-title"
+		                        th:text="${assignment.thesis.thesisTitle}">
+		
+		                        Thesis Title
+		
+		                    </td>
+		
+		
+		                    <!-- ASSIGNED DATE -->
+		
+		                    <td th:text="${#temporals.format(
+		                            assignment.assignedAt,
+		                            'dd/MM/yyyy'
+		                        )}">
+		
+		                        Date
+		
+		                    </td>
+		
+		
+		                    <!-- SUBMISSION -->
+		
+		                    <td>
+		
+		                        <span th:if="${assignment.submittedAt != null}"
+		                              th:text="${#temporals.format(
+		                                  assignment.submittedAt,
+		                                  'dd/MM/yyyy'
+		                              )}">
+		
+		                            Submitted
+		
+		                        </span>
+		
+		
+		                        <span th:if="${assignment.submittedAt == null}">
+		                            Not submitted
+		                        </span>
+		
+		                    </td>
+		
+		
+		                    <!-- STATUS -->
+		
+		                    <td>
+		
+		                        <span class="status-badge"
+		                              th:if="${assignment.finalGrade != null}">
+		
+		                            GRADED
+		
+		                        </span>
+		
+		
+		                        <span class="status-badge"
+		                              th:if="${assignment.finalGrade == null
+		                                      && assignment.submittedAt != null}">
+		
+		                            SUBMITTED
+		
+		                        </span>
+		
+		
+		                        <span class="status-badge"
+		                              th:if="${assignment.finalGrade == null
+		                                      && assignment.submittedAt == null}">
+		
+		                            IN PROGRESS
+		
+		                        </span>
+		
+		                    </td>
+		
+		
+		                    <!-- ACTION -->
+		
+		                    <td>
+		
+		                        <a class="btn btn-secondary btn-sm table-action"
+		                           th:href="@{/professor/assignments/{id}/grade(
+		                               id=${assignment.assignmentId}
+		                           )}">
+		
+		                            Grade
+		
+		                        </a>
+		
+		                    </td>
+		
+		
+		                </tr>
+		
+		
+		            </tbody>
+		
+		
+		        </table>
+		
+		    </div>
+		
+		</section>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- ========================================
+     FOOTER
+========================================= -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

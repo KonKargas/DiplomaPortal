@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.thesis-card,.document-card,.grading-card { margin-bottom:22px; padding:30px; }
+.thesis-card h2 { margin-bottom:8px; color:var(--color-navy); font-size:1.5rem; }
+.thesis-description { max-width:850px; color:#747f90; font-size:.9rem; line-height:1.7; }
+.thesis-info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:25px; }
+.info-item { display:flex; flex-direction:column; gap:5px; padding:17px; border:1px solid #e6e9ef; border-radius:11px; background:#f8f9fb; }
+.info-item > span { color:#969eaa; font-size:.66rem; font-weight:750; letter-spacing:.7px; text-transform:uppercase; }
+.info-item strong { color:#283247; font-size:.9rem; }
+.info-item small { color:#8c95a3; font-size:.73rem; }
+.document-row { display:flex; align-items:center; gap:18px; padding:20px; border:1px solid #e3e7ed; border-radius:13px; background:#fafbfc; }
+.pdf-icon { width:56px; height:56px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:11px; background:#fff0f0; color:#b64242; font-size:.72rem; font-weight:800; }
+.document-details { display:flex; flex:1; flex-direction:column; gap:4px; }
+.document-details strong { color:#273247; font-size:.9rem; }
+.document-details span { color:#8a93a2; font-size:.77rem; }
+.document-missing { padding:20px; border:1px dashed #d4dae3; border-radius:11px; background:#f8f9fb; color:#8b94a2; font-size:.84rem; text-align:center; }
+.grades-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.grade-field { padding:20px; border:1px solid #e3e7ee; border-radius:13px; background:#fafbfc; }
+.grade-field label { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; color:#283247; font-size:.88rem; font-weight:700; }
+.grade-field label span { padding:4px 8px; border-radius:20px; background:#fff3d1; color:#ad771c; font-size:.64rem; }
+.grade-input { width:100%; padding:14px; border:1px solid #d6dce6; border-radius:9px; outline:none; background:#fff; color:var(--color-navy); font-size:1.2rem; font-weight:700; text-align:center; }
+.grade-input:focus { border-color:var(--color-gold); box-shadow:0 0 0 3px rgba(248,193,70,.17); }
+.grade-field p { margin-top:10px; color:#9098a5; font-size:.73rem; line-height:1.5; }
+.final-grade-section { display:flex; align-items:center; justify-content:space-between; gap:25px; margin-top:24px; padding:22px; border:1px solid #ead9ab; border-radius:13px; background:linear-gradient(135deg,#fffaf0,#fff5d8); }
+.final-grade-section > div:first-child > span { display:block; margin-bottom:5px; color:#b67b18; font-size:.7rem; font-weight:800; letter-spacing:1px; }
+.final-grade-section p { color:#8a7b5b; font-size:.78rem; }
+.final-grade-value { display:flex; align-items:baseline; gap:4px; flex-shrink:0; min-width:110px; text-align:right; }
+.final-grade-value span { color:var(--color-navy); font-size:2rem; font-weight:800; }
+.final-grade-value small { color:#927a4e; font-size:.76rem; }
+
+@media (max-width:800px) { .thesis-info-grid,.grades-grid { grid-template-columns:1fr; } }
+@media (max-width:650px) { .final-grade-section { align-items:flex-start; flex-direction:column; } .final-grade-value { text-align:left; } .document-row { align-items:flex-start; flex-direction:column; } }
+@media (max-width:500px) { .thesis-card,.document-card,.grading-card { padding:22px 18px; } }

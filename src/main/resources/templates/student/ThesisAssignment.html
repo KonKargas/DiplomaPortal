@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Thesis | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ThesisAssignmentStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+	<script th:src="@{/js/FilenamePreview.js}" defer></script>
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page student-page assignment-page">
+
+    <div class="portal-container portal-container--medium assignment-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--student assignment-header">
+
+            <div>
+
+                <span class="page-eyebrow assignment-eyebrow">
+                    MY THESIS
+                </span>
+
+                <h1>
+                    Thesis Assignment
+                </h1>
+
+                <p>
+                    View your assigned thesis, supervisor,
+                    submission information and grading progress.
+                </p>
+
+            </div>
+
+
+            <a class="btn btn-primary dashboard-button"
+               th:href="@{/student/dashboard}">
+
+                Back to Dashboard
+
+            </a>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS HERO
+        ========================================= -->
+
+        <section class="surface-card thesis-hero">
+
+
+            <div class="hero-content">
+
+                <span class="thesis-label">
+                    Assigned Thesis
+                </span>
+
+
+                <h2 th:text="${assignment.thesis.thesisTitle}">
+                    Thesis Title
+                </h2>
+
+
+                <p th:text="${assignment.thesis.thesisDescription}">
+                    Thesis description
+                </p>
+
+            </div>
+
+
+
+            <!-- ========================================
+                 ASSIGNMENT STATUS
+            ========================================= -->
+
+            <div class="assignment-status"
+                 th:classappend="${
+                    assignment.finalGrade != null
+                    ? ' status-graded'
+                    : assignment.submittedAt != null
+                    ? ' status-submitted'
+                    : ' status-progress'
+                 }">
+
+
+                <span class="status-dot"></span>
+
+
+                <span th:if="${assignment.submittedAt == null}">
+                    In Progress
+                </span>
+
+
+                <span th:if="${
+                    assignment.submittedAt != null
+                    && assignment.finalGrade == null
+                }">
+                    Submitted
+                </span>
+
+
+                <span th:if="${assignment.finalGrade != null}">
+                    Graded
+                </span>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             INFORMATION GRID
+        ========================================= -->
+
+        <section class="information-grid">
+
+
+            <!-- STUDENT -->
+
+            <article class="info-card">
+
+                <span class="card-label">
+                    Student
+                </span>
+
+                <strong th:text="${assignment.student.fullName}">
+                    Student Name
+                </strong>
+
+                <small th:text="${assignment.student.registrationNumber}">
+                    Registration Number
+                </small>
+
+            </article>
+
+
+
+            <!-- SUPERVISOR -->
+
+            <article class="info-card">
+
+                <span class="card-label">
+                    Supervisor
+                </span>
+
+                <strong th:text="${assignment.thesis.supervisor.fullName}">
+                    Professor Name
+                </strong>
+
+                <small th:text="${assignment.thesis.supervisor.department}">
+                    Department
+                </small>
+
+            </article>
+
+
+
+            <!-- ASSIGNED DATE -->
+
+            <article class="info-card">
+
+                <span class="card-label">
+                    Assigned On
+                </span>
+
+                <strong th:text="${#temporals.format(
+                        assignment.assignedAt,
+                        'dd/MM/yyyy'
+                )}">
+                    Date
+                </strong>
+
+                <small>
+                    Thesis assignment date
+                </small>
+
+            </article>
+
+
+
+            <!-- SUBMISSION DATE -->
+
+            <article class="info-card">
+
+                <span class="card-label">
+                    Submission
+                </span>
+
+
+                <strong th:if="${assignment.submittedAt != null}"
+                        th:text="${#temporals.format(
+                            assignment.submittedAt,
+                            'dd/MM/yyyy HH:mm'
+                        )}">
+                    Date
+                </strong>
+
+
+                <strong th:if="${assignment.submittedAt == null}">
+                    Not submitted
+                </strong>
+
+
+                <small>
+                    Final thesis document
+                </small>
+
+            </article>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             DOCUMENT
+        ========================================= -->
+
+        <section class="surface-card assignment-card">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        DOCUMENT
+                    </span>
+
+                    <h2>
+                        Thesis Document
+                    </h2>
+
+                    <p>
+                        Upload your final thesis as a PDF document.
+                        You can replace the file later if necessary.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ========================================
+                 NO PDF
+            ========================================= -->
+
+            <div class="document-empty"
+                 th:if="${
+                    assignment.pdfFilePath == null
+                    || #strings.isEmpty(assignment.pdfFilePath)
+                 }">
+
+
+                <div class="document-icon">
+                    PDF
+                </div>
+
+
+                <div class="document-details">
+
+                    <strong>
+                        No document submitted yet
+                    </strong>
+
+                    <span>
+                        Select your thesis PDF and upload it.
+                    </span>
+
+                </div>
+
+
+
+                <form class="pdf-upload-form"
+                      th:action="@{/student/assignment/upload}"
+                      method="post"
+                      enctype="multipart/form-data">
+
+
+                    <label class="btn btn-secondary file-input-label"
+                           for="pdfFile">
+
+                        Choose PDF
+
+                    </label>
+
+
+                    <input
+                        class="pdf-file-input"
+                        id="pdfFile"
+                        name="pdfFile"
+                        type="file"
+                        accept="application/pdf,.pdf"
+                        required>
+
+
+                    <span class="selected-file-name"
+                          id="selectedFileName">
+
+                        No file selected
+
+                    </span>
+
+
+                    <button class="btn btn-gold upload-document-button"
+                            type="submit">
+
+                        Upload PDF
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <!-- ========================================
+                 PDF ALREADY EXISTS
+            ========================================= -->
+
+            <div class="document-file"
+                 th:if="${
+                    assignment.pdfFilePath != null
+                    && !#strings.isEmpty(assignment.pdfFilePath)
+                 }">
+
+
+                <div class="document-icon">
+                    PDF
+                </div>
+
+
+                <div class="document-details">
+
+                    <strong>
+                        Thesis PDF
+                    </strong>
+
+
+                    <span th:if="${assignment.submittedAt != null}">
+
+                        Last submitted:
+
+                        <span th:text="${#temporals.format(
+                            assignment.submittedAt,
+                            'dd/MM/yyyy HH:mm'
+                        )}">
+                            Date
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="document-actions">
+
+
+                    <a class="btn btn-primary view-document-button"
+                       th:href="@{${assignment.pdfFilePath}}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        View PDF
+
+                    </a>
+
+
+
+                    <form class="replace-pdf-form"
+                          th:action="@{/student/assignment/upload}"
+                          method="post"
+                          enctype="multipart/form-data">
+
+
+                        <label class="btn btn-secondary replace-file-label"
+                               for="replacementPdfFile">
+
+                            Choose New PDF
+
+                        </label>
+
+
+                        <input
+                            class="pdf-file-input"
+                            id="replacementPdfFile"
+                            name="pdfFile"
+                            type="file"
+                            accept="application/pdf,.pdf"
+                            required>
+
+
+                        <span class="selected-file-name"
+                              id="replacementFileName">
+
+                            No file selected
+
+                        </span>
+
+
+                        <button class="btn btn-secondary replace-document-button"
+                                type="submit">
+
+                            Replace PDF
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+            <p class="document-warning">
+
+                Only PDF documents are accepted.
+                Uploading a new document will replace the previously submitted file.
+
+            </p>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             GRADES
+        ========================================= -->
+
+        <section class="surface-card assignment-card">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        EVALUATION
+                    </span>
+
+                    <h2>
+                        Thesis Grades
+                    </h2>
+
+                    <p>
+                        Grades will appear here once your supervisor
+                        completes the evaluation.
+                    </p>
+
+                </div>
+
+
+
+                <div class="final-grade"
+                     th:classappend="${
+                        assignment.finalGrade != null
+                        ? ' has-grade'
+                        : ''
+                     }">
+
+                    <span>
+                        Final Grade
+                    </span>
+
+
+                    <strong th:text="${
+                        assignment.finalGrade != null
+                        ? assignment.finalGrade
+                        : '-'
+                    }">
+
+                        -
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="grades-grid">
+
+
+                <article class="grade-card">
+
+                    <span>
+                        Implementation
+                    </span>
+
+                    <strong th:text="${
+                        assignment.implementationGrade != null
+                        ? assignment.implementationGrade
+                        : '-'
+                    }">
+                        -
+                    </strong>
+
+                </article>
+
+
+
+                <article class="grade-card">
+
+                    <span>
+                        Written Report
+                    </span>
+
+                    <strong th:text="${
+                        assignment.reportGrade != null
+                        ? assignment.reportGrade
+                        : '-'
+                    }">
+                        -
+                    </strong>
+
+                </article>
+
+
+
+                <article class="grade-card">
+
+                    <span>
+                        Presentation
+                    </span>
+
+                    <strong th:text="${
+                        assignment.presentationGrade != null
+                        ? assignment.presentationGrade
+                        : '-'
+                    }">
+                        -
+                    </strong>
+
+                </article>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.profile-picture-wrapper { background:linear-gradient(135deg,var(--color-gold),var(--color-orange)); box-shadow:0 8px 22px rgba(207,141,25,.20); }
+.profile-picture { background:#fff8e7; }
+.profile-picture-placeholder { background:linear-gradient(135deg,var(--color-gold),#ed992c); color:var(--color-navy); }
+.student-identity { display:flex; align-items:center; gap:22px; }
+.student-identity h2 { margin-bottom:5px; color:var(--color-navy); font-size:1.35rem; }
+.student-identity p { color:#818a99; font-size:.86rem; }
+.student-identity strong { color:#d88a17; }
+@media (max-width:500px) { .student-identity { align-items:flex-start; flex-direction:column; } }

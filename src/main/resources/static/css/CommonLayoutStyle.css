@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+.portal-page {
+    flex: 1;
+    padding: 45px 30px 60px;
+    background-image:
+        linear-gradient(rgba(0, 35, 60, 0.25), rgba(0, 15, 35, 0.55)),
+        var(--page-background);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.professor-page { --page-background: url("/images/professor_dashboard_bg.webp"); }
+.student-page { --page-background: url("/images/student_dashboard_bg.webp"); }
+.admin-page { --page-background: url("/images/admin_dashboard_bg.webp"); }
+.professor-profile-page { --page-background: url("/images/professor_profile_bg.webp"); }
+.student-profile-page { --page-background: url("/images/student_profile_bg.webp"); }
+
+.portal-container {
+    width: min(var(--container-width, 1100px), 100%);
+    margin: 0 auto;
+}
+
+.portal-container--wide { --container-width: 1400px; }
+.portal-container--admin-wide { --container-width: 1450px; }
+.portal-container--medium { --container-width: 1100px; }
+.portal-container--form { --container-width: 1050px; }
+.portal-container--narrow { --container-width: 950px; }
+.portal-container--profile { --container-width: 1000px; }
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 28px;
+    padding: 28px 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-header);
+}
+
+.page-header--professor {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-2));
+    color: var(--color-white);
+}
+
+.page-header--student {
+    background: linear-gradient(135deg, var(--color-gold), var(--color-orange));
+    color: var(--color-navy);
+    box-shadow: 0 18px 40px rgba(202, 138, 25, 0.18);
+}
+
+.page-header--admin {
+    background: linear-gradient(135deg, rgb(175, 1, 1), rgb(218, 33, 98));
+    color: var(--color-white);
+    box-shadow: 0 18px 40px rgba(25, 35, 55, 0.20);
+}
+
+.page-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.page-header--professor .page-eyebrow { color: var(--color-gold); }
+.page-header--student .page-eyebrow { color: rgba(25, 35, 55, 0.60); }
+.page-header--admin .page-eyebrow { color: rgb(0, 64, 128); }
+
+.page-header h1 {
+    margin-bottom: 6px;
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.page-header p {
+    max-width: 700px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.page-header--professor p,
+.page-header--admin p { color: rgba(255, 255, 255, 0.70); }
+.page-header--student p { color: rgba(25, 35, 55, 0.70); }
+
+.page-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+@media (max-width: 900px) {
+    .portal-page { padding: 30px 18px 45px; }
+    .page-header { align-items: flex-start; flex-direction: column; }
+    .page-nav { width: 100%; }
+}
+
+@media (max-width: 550px) {
+    .portal-page { padding: 20px 12px 35px; }
+    .page-header { padding: 22px 18px; border-radius: 14px; }
+    .page-nav { flex-direction: column; }
+    .page-nav > *, .page-nav a, .page-nav form, .page-nav button { width: 100%; }
+}

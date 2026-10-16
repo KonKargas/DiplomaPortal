@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${editMode}
+            ? 'Edit Thesis | Diploma Portal'
+            : 'Create Thesis | Diploma Portal'">
+        Thesis | Diploma Portal
+    </title>
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ProfessorDashboardStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ThesisFormStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page professor-page dashboard-page">
+
+    <div class="portal-container portal-container--wide dashboard-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--professor dashboard-header">
+
+            <div class="dashboard-header-content">
+
+                <h1 th:text="${editMode}
+                        ? 'Edit Thesis Topic'
+                        : 'Create Thesis Topic'">
+
+                    Thesis Topic
+
+                </h1>
+
+
+                <p class="dashboard-welcome"
+                   th:text="${editMode}
+                        ? 'Update the title or description of your diploma thesis topic.'
+                        : 'Publish a new diploma thesis topic for students.'">
+
+                    Manage thesis topic.
+
+                </p>
+
+            </div>
+
+
+            <nav class="page-nav dashboard-nav">
+
+                <a class="btn btn-outline-gold profile-button"
+                   th:href="@{/professor/dashboard}">
+
+                    Back to Dashboard
+
+                </a>
+
+            </nav>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS FORM
+        ========================================= -->
+
+        <section class="surface-card thesis-form-card">
+
+
+            <div class="form-heading">
+
+                <h2 th:text="${editMode}
+                        ? 'Edit Thesis Information'
+                        : 'Thesis Information'">
+
+                    Thesis Information
+
+                </h2>
+
+
+                <p th:text="${editMode}
+                        ? 'Modify the title or description and save your changes.'
+                        : 'Provide a title and a detailed description for the proposed diploma thesis.'">
+
+                    Thesis information.
+
+                </p>
+
+            </div>
+
+
+
+            <form
+                th:action="${editMode}
+                    ? @{/professor/theses/{id}/edit(
+                        id=${thesis.thesisId}
+                      )}
+                    : @{/professor/theses/create}"
+                th:object="${thesis}"
+                method="post"
+                class="thesis-form">
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="thesisTitle">
+                        Thesis Title
+                    </label>
+
+
+                    <input
+                        id="thesisTitle"
+                        type="text"
+                        th:field="*{thesisTitle}"
+                        placeholder="Enter the thesis title"
+                        maxlength="150"
+                        required>
+
+
+                    <span class="field-hint">
+                        Choose a clear and descriptive title.
+                    </span>
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="thesisDescription">
+                        Description
+                    </label>
+
+
+                    <textarea
+                        id="thesisDescription"
+                        th:field="*{thesisDescription}"
+                        rows="9"
+                        placeholder="Describe the subject, objectives and expected work..."
+                        required>
+                    </textarea>
+
+
+                    <span class="field-hint">
+                        Explain the scope and objectives of the thesis.
+                    </span>
+
+                </div>
+
+
+
+                <!-- INFO -->
+
+                <div class="form-info-box"
+                     th:if="${!editMode}">
+
+                    <strong>
+                        After publishing
+                    </strong>
+
+                    <p>
+                        Students will be able to view this thesis
+                        and submit an application.
+                    </p>
+
+                </div>
+
+
+
+                <div class="form-info-box"
+                     th:if="${editMode}">
+
+                    <strong>
+                        Editing existing thesis
+                    </strong>
+
+                    <p>
+                        Existing applications and assignment data
+                        will remain connected to this thesis.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions thesis-form-actions">
+
+
+                    <a class="btn btn-secondary secondary-action"
+                       th:href="@{/professor/dashboard}">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button class="btn btn-primary primary-action"
+                            type="submit"
+                            th:text="${editMode}
+                                    ? 'Save Changes'
+                                    : 'Publish Thesis'">
+
+                        Save
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

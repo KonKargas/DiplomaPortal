@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Thesis Applications | Diploma Portal</title>
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/ThesisApplicationsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+          
+    <script th:src="@{/js/StrategySelection.js}" defer></script>
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page professor-page applications-page">
+
+    <div class="portal-container portal-container--medium applications-container">
+
+
+        <!-- ========================================
+             HEADER
+        ========================================= -->
+
+        <header class="page-header page-header--professor applications-header">
+
+            <div>
+
+                <span class="page-eyebrow header-eyebrow">
+                    PROFESSOR PORTAL
+                </span>
+
+                <h1>Thesis Applications</h1>
+
+                <p>
+                    Review students who have applied
+                    for this thesis topic.
+                </p>
+
+            </div>
+
+
+            <a class="btn btn-outline-gold dashboard-button"
+               th:href="@{/professor/dashboard}">
+
+                Back to Dashboard
+
+            </a>
+
+        </header>
+
+
+
+        <!-- ========================================
+             THESIS INFORMATION
+        ========================================= -->
+
+        <section class="surface-card thesis-summary-card">
+
+
+            <div class="thesis-summary-top">
+
+                <div>
+
+                    <span class="thesis-label">
+                        Thesis Topic
+                    </span>
+
+
+                    <h2 th:text="${thesis.thesisTitle}">
+                        Thesis Title
+                    </h2>
+
+                </div>
+
+
+
+                <div class="application-counter">
+
+                    <strong th:text="${#lists.size(applications)}">
+                        0
+                    </strong>
+
+                    <span>
+                        Applications
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <p class="thesis-description"
+               th:text="${thesis.thesisDescription}">
+
+                Thesis description
+
+            </p>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             APPLICATIONS
+        ========================================= -->
+
+        <section class="surface-card applications-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        Candidates
+                    </span>
+
+                    <h2>Student Applications</h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(applications)}">
+
+                There are currently no applications
+                for this thesis.
+
+            </div>
+
+
+
+            <!-- ========================================
+                 APPLICATION CARDS
+            ========================================= -->
+
+            <div class="applications-grid"
+                 th:unless="${#lists.isEmpty(applications)}">
+
+
+                <article class="application-card"
+                         th:each="thesisApplication : ${applications}">
+
+
+                    <!-- STUDENT HEADER -->
+
+                    <div class="application-card-header">
+
+
+                        <div class="student-avatar">
+
+                            <span th:text="${#strings.substring(
+                                    thesisApplication.student.fullName,
+                                    0,
+                                    1
+                            )}">
+                                S
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="student-heading">
+
+                            <h3 th:text="${thesisApplication.student.fullName}">
+                                Student Name
+                            </h3>
+
+
+                            <span th:text="${thesisApplication.student.registrationNumber}">
+                                Registration Number
+                            </span>
+
+                        </div>
+
+
+
+                        <span
+                            class="status-badge"
+                            th:classappend="${' status-' +
+                                #strings.toLowerCase(
+                                    thesisApplication.status.name()
+                                )}"
+                            th:text="${thesisApplication.status}">
+
+                            PENDING
+
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- ========================================
+                         ACADEMIC INFORMATION
+                    ========================================= -->
+
+                    <div class="academic-info">
+
+
+                        <div class="academic-stat">
+
+                            <span>
+                                Average Grade
+                            </span>
+
+                            <strong th:text="${
+                                thesisApplication.student.averageGrade != null
+                                ? thesisApplication.student.averageGrade
+                                : '-'
+                            }">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="academic-stat">
+
+                            <span>
+                                Remaining Courses
+                            </span>
+
+                            <strong th:text="${
+                                thesisApplication.student.remainingCourses != null
+                                ? thesisApplication.student.remainingCourses
+                                : '-'
+                            }">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="academic-stat">
+
+                            <span>
+                                Applied
+                            </span>
+
+                            <strong th:text="${#temporals.format(
+                                    thesisApplication.applicationDate,
+                                    'dd/MM/yyyy'
+                            )}">
+
+                                Date
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ========================================
+                         STUDENT MESSAGE
+                    ========================================= -->
+
+                    <div class="application-notes">
+
+
+                        <span class="notes-label">
+                            Student Message
+                        </span>
+
+
+                        <p th:if="${
+                                thesisApplication.notes != null
+                                && !#strings.isEmpty(
+                                    thesisApplication.notes
+                                )
+                           }"
+                           th:text="${thesisApplication.notes}">
+
+                            Student notes...
+
+                        </p>
+
+
+                        <p class="no-notes"
+                           th:if="${
+                                thesisApplication.notes == null
+                                || #strings.isEmpty(
+                                    thesisApplication.notes
+                                )
+                           }">
+
+                            No message was provided.
+
+                        </p>
+
+
+                    </div>
+
+
+
+                    <!-- ========================================
+                         CURRENT APPLICATION STATUS
+                    ========================================= -->
+
+                    <div class="application-actions">
+
+
+                        <div class="decision-message pending-message"
+                             th:if="${
+                                thesisApplication.status.name()
+                                == 'PENDING'
+                             }">
+
+                            Awaiting thesis assignment
+
+                        </div>
+
+
+
+                        <div class="decision-message accepted-message"
+                             th:if="${
+                                thesisApplication.status.name()
+                                == 'ACCEPTED'
+                             }">
+
+                            Selected for supervision
+
+                        </div>
+
+
+
+                        <div class="decision-message rejected-message"
+                             th:if="${
+                                thesisApplication.status.name()
+                                == 'REJECTED'
+                             }">
+
+                            Not selected
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             ASSIGNMENT STRATEGY
+        ========================================= -->
+
+        <section class="surface-card strategy-section"
+                 th:if="${hasPendingApplications}">
+
+
+            <div class="strategy-heading">
+
+                <span class="section-eyebrow">
+                    Assignment
+                </span>
+
+
+                <h2>Select Assignment Strategy</h2>
+
+
+                <p>
+                    Choose how the system should select the student
+                    who will be assigned this thesis topic.
+                </p>
+
+            </div>
+
+
+
+            <form class="strategy-form"
+                  th:action="@{/professor/theses/{id}/assign(
+                        id=${thesis.thesisId}
+                  )}"
+                  th:object="${assignmentRequest}"
+                  method="post">
+
+
+                <!-- ========================================
+                     STRATEGY OPTIONS
+                ========================================= -->
+
+                <div class="strategy-options">
+
+
+                    <!-- RANDOM -->
+
+                    <label class="strategy-option">
+
+                        <input
+                            type="radio"
+                            th:field="*{strategyType}"
+                            value="RANDOM"
+                            required>
+
+
+                        <div class="strategy-content">
+
+                            <strong>
+                                Random Choice
+                            </strong>
+
+                            <span>
+                                Select one applicant randomly.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- BEST AVERAGE -->
+
+                    <label class="strategy-option">
+
+                        <input
+                            type="radio"
+                            th:field="*{strategyType}"
+                            value="BEST_AVERAGE_GRADE">
+
+
+                        <div class="strategy-content">
+
+                            <strong>
+                                Best Average Grade
+                            </strong>
+
+                            <span>
+                                Select the applicant with the highest
+                                average course grade.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- FEWEST COURSES -->
+
+                    <label class="strategy-option">
+
+                        <input
+                            type="radio"
+                            th:field="*{strategyType}"
+                            value="FEWEST_REMAINING_COURSES">
+
+
+                        <div class="strategy-content">
+
+                            <strong>
+                                Fewest Remaining Courses
+                            </strong>
+
+                            <span>
+                                Select the applicant with the fewest
+                                remaining courses for graduation.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- THRESHOLD -->
+
+                    <label class="strategy-option">
+
+                        <input
+                            type="radio"
+                            th:field="*{strategyType}"
+                            value="THRESHOLD">
+
+
+                        <div class="strategy-content">
+
+                            <strong>
+                                Threshold Criteria
+                            </strong>
+
+                            <span>
+                                Select an applicant satisfying both
+                                academic thresholds.
+                            </span>
+
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     THRESHOLD VALUES
+                ========================================= -->
+
+                <div class="threshold-fields"
+                     id="thresholdFields">
+
+
+                    <div class="threshold-heading">
+
+                        <strong>
+                            Threshold Parameters
+                        </strong>
+
+                        <span>
+                            Used only when Threshold Criteria
+                            is selected.
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="threshold-grid">
+
+
+                        <div class="threshold-field">
+
+                            <label for="gradeThreshold">
+                                Minimum Average Grade — Th1
+                            </label>
+
+
+                            <input
+                                id="gradeThreshold"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                max="10"
+                                th:field="*{gradeThreshold}"
+                                placeholder="e.g. 7.50">
+
+
+                            <small>
+                                Average grade must be greater than Th1.
+                            </small>
+
+                        </div>
+
+
+
+                        <div class="threshold-field">
+
+                            <label for="coursesThreshold">
+                                Maximum Remaining Courses — Th2
+                            </label>
+
+
+                            <input
+                                id="coursesThreshold"
+                                type="number"
+                                min="0"
+                                th:field="*{coursesThreshold}"
+                                placeholder="e.g. 5">
+
+
+                            <small>
+                                Remaining courses must be less than Th2.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ========================================
+                     SUBMIT
+                ========================================= -->
+
+                <div class="strategy-actions">
+
+
+                    <div class="strategy-warning">
+
+                        <strong>
+                            Important
+                        </strong>
+
+                        <span>
+                            The selected student will be accepted
+                            and all other pending applications
+                            will be rejected.
+                        </span>
+
+                    </div>
+
+
+
+                    <button class="btn btn-primary assign-button"
+                            type="submit">
+
+                        Assign Thesis
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             ASSIGNMENT COMPLETED
+        ========================================= -->
+
+        <section class="surface-card strategy-section"
+                 th:if="${
+                    !#lists.isEmpty(applications)
+                    && !hasPendingApplications
+                 }">
+
+
+            <div class="decision-message accepted-message">
+
+                Student selection for this thesis has been completed.
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

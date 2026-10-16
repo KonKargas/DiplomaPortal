@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+/* ========================================
+   FOOTER
+======================================== */
+
+footer {
+    width: 100%;
+
+    margin-top: auto;
+    padding: 18px 20px;
+
+    text-align: center;
+
+    background: rgba(25, 35, 55, 0.88);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-top: 1px solid rgba(248, 193, 70, 0.3);
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-separator {
+    margin: 0 9px;
+
+    color: #f8c146;
+    font-weight: 600;
+}
+
+footer a {
+    color: #f8c146;
+
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: color 0.25s ease;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+
+    footer {
+        padding: 16px 15px;
+
+        font-size: 0.82rem;
+        line-height: 1.7;
+    }
+
+    .footer-separator {
+        margin: 0 5px;
+    }
+}

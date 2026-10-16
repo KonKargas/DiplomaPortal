@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Diploma Portal</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/logo.ico}">
+
+
+    <link rel="stylesheet"
+          th:href="@{/css/GlobalStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonLayoutStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/CommonComponentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/AdminDashboardStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FooterStyle.css}">
+
+</head>
+
+
+<body>
+
+
+<main class="portal-page admin-page">
+
+    <div class="portal-container portal-container--admin-wide admin-container">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header page-header--admin admin-header">
+
+            <div>
+
+                <span class="page-eyebrow admin-eyebrow">
+                    SYSTEM ADMINISTRATION
+                </span>
+
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Manage student and professor accounts.
+                </p>
+
+            </div>
+
+
+            <div th:replace="~{fragments/actions :: logoutForm('btn btn-outline-light logout-button')}"></div>
+
+        </header>
+
+
+
+        <!-- SUMMARY -->
+
+        <section class="admin-summary">
+
+            <div class="summary-card">
+
+                <span>Students</span>
+
+                <strong th:text="${#lists.size(students)}">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>Professors</span>
+
+                <strong th:text="${#lists.size(professors)}">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card total-card">
+
+                <span>Total Accounts</span>
+
+                <strong th:text="${#lists.size(students) + #lists.size(professors)}">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- STUDENTS -->
+
+        <section class="surface-card admin-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        USERS
+                    </span>
+
+                    <h2>Student Accounts</h2>
+
+                </div>
+
+
+                <a class="btn btn-primary create-button"
+                   th:href="@{/admin/students/create}">
+
+                    + Add Student
+
+                </a>
+
+            </div>
+
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(students)}">
+
+                No student accounts found.
+
+            </div>
+
+
+            <div class="table-wrapper"
+                 th:unless="${#lists.isEmpty(students)}">
+
+                <table class="data-table admin-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Registration No.</th>
+                            <th>Email</th>
+                            <th>Average</th>
+                            <th>Courses</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr th:each="student : ${students}">
+
+                            <td class="username"
+                                th:text="${student.username}">
+                                username
+                            </td>
+
+                            <td th:text="${student.fullName ?: '-'}">
+                                Student
+                            </td>
+
+                            <td th:text="${student.registrationNumber ?: '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${student.email ?: '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${student.averageGrade != null ? student.averageGrade : '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${student.remainingCourses != null ? student.remainingCourses : '-'}">
+                                -
+                            </td>
+
+                            <td>
+
+                                <div class="action-group">
+
+                                    <a class="btn btn-secondary btn-sm edit-button"
+                                       th:href="@{/admin/students/{id}/edit(
+                                               id=${student.userId}
+                                       )}">
+
+                                        Edit
+
+                                    </a>
+
+
+                                    <form th:action="@{/admin/students/{id}/delete(
+									        id=${student.userId}
+									)}"
+									      method="post"
+									      onsubmit="return confirm(
+									          'Are you sure you want to delete this student? All applications and thesis assignment data associated with this student will also be deleted.'
+									      );">
+									
+									    <button class="btn btn-danger btn-sm delete-button"
+									            type="submit">
+									
+									        Delete
+									
+									    </button>
+									
+									</form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PROFESSORS -->
+
+        <section class="surface-card admin-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-eyebrow">
+                        USERS
+                    </span>
+
+                    <h2>Professor Accounts</h2>
+
+                </div>
+
+
+                <a class="btn btn-primary create-button"
+                   th:href="@{/admin/professors/create}">
+
+                    + Add Professor
+
+                </a>
+
+            </div>
+
+
+            <div class="empty-state"
+                 th:if="${#lists.isEmpty(professors)}">
+
+                No professor accounts found.
+
+            </div>
+
+
+            <div class="table-wrapper"
+                 th:unless="${#lists.isEmpty(professors)}">
+
+                <table class="data-table admin-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Office</th>
+                            <th>Field</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr th:each="professor : ${professors}">
+
+                            <td class="username"
+                                th:text="${professor.username}">
+                                username
+                            </td>
+
+                            <td th:text="${professor.fullName ?: '-'}">
+                                Professor
+                            </td>
+
+                            <td th:text="${professor.email ?: '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${professor.department ?: '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${professor.office ?: '-'}">
+                                -
+                            </td>
+
+                            <td th:text="${professor.fieldOfStudies ?: '-'}">
+                                -
+                            </td>
+
+                            <td>
+
+                                <div class="action-group">
+
+                                    <a class="btn btn-secondary btn-sm edit-button"
+                                       th:href="@{/admin/professors/{id}/edit(
+                                               id=${professor.userId}
+                                       )}">
+
+                                        Edit
+
+                                    </a>
+
+
+                                    <form th:action="@{/admin/professors/{id}/delete(
+									        id=${professor.userId}
+									)}"
+									      method="post"
+									      onsubmit="return confirm(
+									          'Are you sure you want to delete this professor? All thesis topics, applications and assignment data associated with this professor will also be deleted.'
+									      );">
+									
+									    <button class="btn btn-danger btn-sm delete-button"
+									            type="submit">
+									
+									        Delete
+									
+									    </button>
+									
+									</form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
+</body>
+
+</html>

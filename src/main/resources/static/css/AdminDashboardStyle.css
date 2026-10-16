@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.admin-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px; }
+.summary-card span { display:block; margin-bottom:7px; color:#808999; font-size:.75rem; text-transform:uppercase; }
+.summary-card strong { color:var(--color-navy); font-size:1.5rem; }
+.total-card strong { color:#d88d1b; }
+.admin-section { margin-bottom:28px; padding:30px; }
+.username { color:var(--color-navy)!important; font-weight:700; }
+.action-group { display:flex; gap:7px; }
+.action-group form { margin:0; }
+
+@media (max-width:800px) { .admin-summary { grid-template-columns:1fr; } }
+@media (max-width:500px) { .admin-section { padding:22px 18px; } }
