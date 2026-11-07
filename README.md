@@ -137,21 +137,38 @@ DiplomaPortal/
 
 ## Application Screenshots
 
-The repository provides a `docs/screenshots/` folder for application captures. This section can be completed with the actual screenshots once their filenames have been verified.
+### Login Page
 
-Suggested gallery order:
+Authentication interface for accessing the platform based on user roles.
 
-1. Login and registration
-2. Student dashboard and thesis topic browsing
-3. Thesis applications and assignment status
-4. Professor dashboard and assignment strategy selection
-5. Thesis PDF submission and grading
-6. Administrator dashboard
+![Login Page](docs/screenshots/login.png)
 
-<!-- Example after confirming the exact filename:
+### Administrator Dashboard
+
+Centralized management of users, thesis assignments, and academic operations.
+
+![Administrator Dashboard](docs/screenshots/admin-dashboard.png)
+
+### Professor Dashboard
+
+Interface for managing thesis proposals, supervising students, and monitoring thesis progress.
+
+![Professor Dashboard](docs/screenshots/professor-dashboard.png)
+
+### Professor Profile
+
+Dedicated profile page displaying professor information and related academic details.
+
+![Professor Profile](docs/screenshots/professor-profile.png)
+
 ### Student Dashboard
+
+Student interface for viewing available thesis topics, managing assignments, and tracking academic progress.
+
 ![Student Dashboard](docs/screenshots/student-dashboard.png)
--->
+
+---
+
 
 ## Getting Started
 
