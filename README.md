@@ -1,200 +1,208 @@
 <div align="center">
 
-<img src="src/main/resources/static/images/logo_big.png" alt="Diploma Portal logo" width="150">
+<!-- LOGO PATH: Verify the filename against src/main/resources/static/images/ before publishing. -->
+<img src="src/main/resources/static/images/logo.png" alt="Diploma Portal logo" width="240" />
 
 # Diploma Portal
 
-**A role-based diploma thesis management system built with Spring Boot, Thymeleaf and SQLite.**
+### University Thesis Management System
+
+**Java 17 · Spring Boot 4.1.1 · Spring Security · Thymeleaf · SQLite · HTML · CSS · JavaScript**
+
+A role-based platform for managing university diploma theses, from topic publication and student applications to assignments, submissions, and grading.
+
+[Overview](#overview) · [Features](#core-features) · [Technology](#technology-stack) · [Screenshots](#application-screenshots) · [Getting Started](#getting-started)
 
 </div>
 
+---
+
 ## Overview
 
-Diploma Portal is a university thesis-management web application that supports the complete workflow between **students**, **professors**, and **administrators**.
+**Diploma Portal** is a full-stack web application that brings students, professors, and university administrators into a single thesis-management workflow. It uses server-side rendering with Thymeleaf, Spring MVC for web requests, Spring Security for access control, and SQLite for local persistence.
 
-Professors can publish thesis topics, review student applications, assign a student using configurable selection strategies, supervise submissions, and grade completed theses. Students can manage their profile, browse available topics, apply for a thesis, follow their applications, and upload the final thesis PDF. Administrators manage student and professor accounts from a dedicated dashboard.
+Students discover and apply for thesis topics, professors supervise assignments and evaluate submissions, and administrators manage accounts and related academic records.
 
-The project uses server-side rendering with Thymeleaf and a traditional Spring MVC architecture, with no frontend framework required.
+## Core Features
 
-## Features
+| Module | Capabilities |
+| --- | --- |
+| **Authentication & authorization** | Secure login, BCrypt password hashing, role-based access control, and role-aware dashboards. |
+| **Student portal** | Profile management, topic browsing, applications, application history, assigned-thesis details, PDF submission, and grade viewing. |
+| **Professor portal** | Topic creation and management, application reviews, student assignment, supervision, submission review, and grading. |
+| **Administration** | Student and professor account management, coordinated deletion of related records, and confirmation prompts for destructive operations. |
+| **Assignment strategies** | Configurable approaches for choosing a student for a thesis. |
+| **File handling** | Profile-picture uploads and replacement of submitted thesis PDFs, stored outside the application classpath. |
 
-### Authentication & authorization
+### Student Workflow
 
-- Spring Security authentication with BCrypt password hashing
-- Three roles: `ADMIN`, `PROFESSOR`, and `STUDENT`
-- Role-based route protection
-- Student and professor self-registration
-- Profile-completion enforcement before accessing role-specific functionality
-- Password visibility toggle on login and registration forms
+1. Register or sign in and complete the student profile.
+2. Browse available thesis topics and apply to a preferred topic.
+3. Monitor application status and access assignment details when selected.
+4. Upload or replace the completed thesis PDF.
+5. View the final grading result.
 
-### Student portal
+The system limits duplicate applications for the same topic and prevents further applications after a thesis has been assigned.
 
-- Student profile management
-- Profile-picture upload
-- Browse available thesis topics
-- Submit one application per thesis topic
-- Prevent new applications after receiving a thesis assignment
-- View application history and status
-- View assigned thesis information
-- Upload or replace the final thesis PDF
-- View thesis grading results
+### Professor Workflow
 
-### Professor portal
+1. Create and maintain thesis topics.
+2. Review applications for each topic.
+3. Select a student using an assignment strategy.
+4. Track supervised students and review submitted PDFs.
+5. Enter separate grades for **implementation**, **report**, and **presentation**, with automatic final-grade calculation.
 
-- Professor profile management
-- Profile-picture upload
-- Create, edit, and delete thesis topics
-- Review applications for each thesis
-- Assign one student to a thesis using multiple strategies
-- View students under supervision
-- View submitted thesis PDFs
-- Grade implementation, report, and presentation
-- Automatic final-grade calculation
+### Thesis Assignment Strategies
 
-### Assignment strategies
+The assignment feature applies the **Strategy design pattern**, separating selection logic from MVC controllers.
 
-The application implements the Strategy pattern for thesis assignment:
+| Strategy | Selection approach |
+| --- | --- |
+| Random Choice | Selects a student randomly among eligible applicants. |
+| Best Average Grade | Favors the applicant with the highest academic average. |
+| Fewest Remaining Courses | Favors the applicant with the fewest outstanding courses. |
+| Grade & Remaining Courses Threshold | Evaluates eligibility against defined academic thresholds. |
 
-- **Random Choice**
-- **Best Average Grade**
-- **Fewest Remaining Courses**
-- **Grade & Remaining Courses Threshold**
-
-### Administration
-
-- Dedicated admin dashboard
-- Create, edit, and delete student accounts
-- Create, edit, and delete professor accounts
-- Related applications and assignments are cleaned up during account deletion
-- Deleting a professor also removes their thesis topics and related thesis data
-- Confirmation prompts protect destructive delete operations
-
-## Tech Stack
+## Technology Stack
 
 | Layer | Technology |
 | --- | --- |
 | Language | Java 17 |
-| Backend | Spring Boot 4.1.1 |
-| MVC | Spring Web MVC |
-| Security | Spring Security |
-| Templates | Thymeleaf |
-| Persistence | Spring Data JPA / Hibernate |
+| Backend | Spring Boot 4.1.1, Spring Web MVC |
+| Authentication | Spring Security, BCrypt |
+| Views | Thymeleaf, reusable template fragments |
+| Persistence | Spring Data JPA, Hibernate |
 | Database | SQLite |
 | Validation | Jakarta Validation |
 | Frontend | HTML5, CSS3, vanilla JavaScript |
-| Build | Maven / Maven Wrapper |
+| Build & dependencies | Maven, Maven Wrapper |
 
-## Architecture
+## Architecture & Implementation
 
-The application follows a conventional layered Spring architecture:
+Diploma Portal follows a layered design that separates HTTP request handling, business rules, and persistence:
 
 ```text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-SQLite Database
+Browser / Thymeleaf Views
+           |
+           v
+     MVC Controllers
+           |
+           v
+     Service Layer ------> Assignment Strategies
+           |
+           v
+  Spring Data Repositories
+           |
+           v
+      SQLite Database
 ```
 
-Thesis assignment selection is separated behind a strategy interface and factory, allowing assignment algorithms to remain independent from controller logic.
+**Additional implementation details:**
+
+- Three access roles: `ADMIN`, `PROFESSOR`, and `STUDENT`.
+- Registration and profile-completion checks before role-specific operations.
+- Dedicated service logic for account deletion and related-record cleanup.
+- Local runtime storage for profile images and thesis files.
+- Server-rendered UI without a frontend JavaScript framework.
 
 ## Project Structure
 
 ```text
-src/main/java/com/kkargas/diplomaportal/
-├── config/          # Security, MVC configuration, admin initialization
-├── controller/      # MVC controllers
-├── dto/             # Form and request DTOs
-├── enums/           # Roles, statuses and strategy types
-├── interceptor/     # Profile completion guards
-├── model/           # JPA entities
-├── repository/      # Spring Data repositories
-├── security/        # UserDetails service
-├── service/         # Business logic
-└── strategy/        # Thesis assignment strategies
-
-src/main/resources/
-├── static/
-│   ├── css/
-│   ├── images/
-│   └── js/
-├── templates/
-│   ├── admin/
-│   ├── auth/
-│   ├── dashboard/
-│   ├── fragments/
-│   ├── professor/
-│   └── student/
-└── application.properties
+DiplomaPortal/
+├── .mvn/wrapper/
+├── data/                           # Local SQLite database directory
+├── docs/screenshots/               # Application screenshots
+├── src/
+│   └── main/
+│       ├── java/com/kkargas/diplomaportal/
+│       │   ├── config/
+│       │   ├── controller/
+│       │   ├── dto/
+│       │   ├── enums/
+│       │   ├── interceptor/
+│       │   ├── model/
+│       │   ├── repository/
+│       │   ├── security/
+│       │   ├── service/
+│       │   └── strategy/
+│       └── resources/
+│           ├── static/             # CSS, JS, images
+│           ├── templates/          # Thymeleaf views
+│           └── application.properties
+├── uploads/                        # Local runtime files
+├── mvnw
+├── mvnw.cmd
+└── pom.xml
 ```
+
+## Application Screenshots
+
+The repository provides a `docs/screenshots/` folder for application captures. This section can be completed with the actual screenshots once their filenames have been verified.
+
+Suggested gallery order:
+
+1. Login and registration
+2. Student dashboard and thesis topic browsing
+3. Thesis applications and assignment status
+4. Professor dashboard and assignment strategy selection
+5. Thesis PDF submission and grading
+6. Administrator dashboard
+
+<!-- Example after confirming the exact filename:
+### Student Dashboard
+![Student Dashboard](docs/screenshots/student-dashboard.png)
+-->
 
 ## Getting Started
 
-### Requirements
+### Prerequisites
 
-- JDK 17 or newer
-- Internet access on first Maven Wrapper run to download Maven/dependencies
+- **JDK 17** or newer.
+- Internet access for the first Maven Wrapper execution (to retrieve build dependencies).
 
 ### Clone the repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/KonKargas/DiplomaPortal.git
 cd DiplomaPortal
 ```
 
-### Run on Windows
+### Run the application
 
-```powershell
+**Windows**
+
+```bat
 mvnw.cmd spring-boot:run
 ```
 
-### Run on macOS / Linux
+**macOS / Linux**
 
 ```bash
 chmod +x mvnw
 ./mvnw spring-boot:run
 ```
 
-Then open:
+Open **http://localhost:8080** in a web browser.
 
-```text
-http://localhost:8080
+### Run tests
+
+```bash
+./mvnw test
 ```
 
-## Database
+On Windows, use `mvnw.cmd test` instead.
 
-The application uses a local SQLite database:
+## Local Data & Uploads
+
+The default SQLite database is stored at:
 
 ```text
 data/diploma-portal.db
 ```
 
-The database file is intentionally excluded from Git. Hibernate creates/updates the schema automatically with:
+Hibernate is configured to update the database schema automatically (`spring.jpa.hibernate.ddl-auto=update`). The local database is excluded from version control.
 
-```properties
-spring.jpa.hibernate.ddl-auto=update
-```
-
-The empty `data/` directory is retained in the repository so SQLite can create the database on first launch.
-
-## Default Admin Account
-
-On first startup, the project creates a local administrator account if one does not already exist:
-
-```text
-Username: admin
-Password: admin123
-```
-
-> **Security note:** These credentials are intended only for local development/demo use. Change the initializer or provide a stronger credential mechanism before deploying the application publicly.
-
-Student and professor accounts can be created through the registration page or by an administrator.
-
-## Uploaded Files
-
-Runtime uploads are stored outside the classpath under:
+Uploaded data is stored under:
 
 ```text
 uploads/student-profile-pictures/
@@ -202,50 +210,37 @@ uploads/professor-profile-pictures/
 uploads/thesis-pdfs/
 ```
 
-Uploaded user files are intentionally excluded from Git.
+Configured multipart limits are **10 MB per file** and **12 MB per request**. Uploaded files are not intended to be committed to the repository.
 
-The current multipart limits are:
+### Development Administrator Account
+
+On first startup, the current local-development initializer creates an administrator when one does not already exist:
 
 ```text
-Maximum file size:    10 MB
-Maximum request size: 12 MB
+Username: admin
+Password: admin123
 ```
 
-## Screenshots
+> **Security:** These credentials are for local development only. Replace the default credentials and secure the initialization flow before any public deployment. Do not expose an instance with the demo account enabled.
 
-A `docs/screenshots/` directory is included for repository screenshots. Suggested captures include:
+Students and professors can register through the application or be created by an administrator.
 
-- Login / registration
-- Student dashboard
-- Professor dashboard
-- Admin dashboard
-- Thesis applications and assignment strategy selection
-- Thesis submission and grading
+## Repository Scope
 
-## Running Tests
+The repository contains the Spring Boot application source, server-rendered templates, frontend assets, Maven build configuration, and an area for screenshots. Local database contents and user-uploaded files are runtime data rather than distributable project assets.
 
-```bash
-./mvnw test
-```
-
-On Windows:
-
-```powershell
-mvnw.cmd test
-```
-
-## Notes
-
-- The application is designed as a portfolio/university project and uses a local SQLite database for straightforward setup.
-- Uploaded files and the local database are runtime data and are not version controlled.
-- The UI is implemented with Thymeleaf, reusable HTML fragments, CSS, and small vanilla JavaScript utilities.
-
-## Author
-
-**Konstantinos Kargas**
-
-Java / Spring Boot Software Developer
+The project is intended as a portfolio and educational demonstration of layered web application development, role-based workflows, persistence, and configurable selection algorithms.
 
 ---
 
-If you find the project useful, feel free to explore the source code and adapt it for educational purposes.
+## Author
+
+**Konstantinos Kargas**  
+Full-Stack Software Engineer
+
+- Website: [kkargas.com](https://kkargas.com)
+- GitHub: [KonKargas](https://github.com/KonKargas)
+
+---
+
+*Diploma Portal — streamlined thesis management, transparent student assignments, and structured academic workflows.*
