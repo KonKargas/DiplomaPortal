@@ -1,15 +1,19 @@
 <div align="center">
 
-<!-- LOGO PATH: Verify the filename against src/main/resources/static/images/ before publishing. -->
 <img src="src/main/resources/static/images/logo.png" alt="Diploma Portal logo" width="240" />
 
 # Diploma Portal
 
 ### University Thesis Management System
 
-**Java 17 · Spring Boot 4.1.1 · Spring Security · Thymeleaf · SQLite · HTML · CSS · JavaScript**
-
 A role-based platform for managing university diploma theses, from topic publication and student applications to assignments, submissions, and grading.
+
+![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-6DB33F?style=flat&logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring%20Security-Role%20Based-6DB33F?style=flat&logo=springsecurity&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Templates-005F0F?style=flat&logo=thymeleaf&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=flat&logo=sqlite&logoColor=white)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36?style=flat&logo=apachemaven&logoColor=white)
 
 [Overview](#overview) · [Features](#core-features) · [Technology](#technology-stack) · [Screenshots](#application-screenshots) · [Getting Started](#getting-started)
 
@@ -168,7 +172,6 @@ Student interface for viewing available thesis topics, managing assignments, and
 ![Student Dashboard](docs/screenshots/student-dashboard.png)
 
 ---
-
 
 ## Getting Started
 
